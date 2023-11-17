@@ -6,59 +6,23 @@
 /*   By: mekherbo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 15:17:18 by mekherbo          #+#    #+#             */
-/*   Updated: 2023/11/16 19:59:12 by mekherbo         ###   ########.fr       */
+/*   Updated: 2023/11/17 11:33:30 by mekherbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdio.h>
 #include "get_next_line.h"
 #include <fcntl.h>
-
-void	*ft_memcpy(void *dest, const void *src, size_t len)
-{
-	char	*d;
-	char	*s;
-
-	d = (char *)dest;
-	s = (char *)src;
-	while (len--)
-		*d++ = *s++;
-	return (dest);
-}
-
-char *ft_join(char *save, char *buffer)
-{
-	char *tmp;
-
-	tmp = ft_strjoin(save, buffer);
-	free(save);
-	return (tmp);
-}
-
-char *ft_tmp_substr(char *next, char *offset)
-{
-	char *tmp;
-
-	tmp = ft_substr(next, ft_strlen(next) - ft_strlen(offset) + 1, ft_strlen(next));
-	free(next);
-	return (tmp);
-}
-
 char	*get_next_line(int fd)
 {
 	char	*line;
 	static char *next;
-	char	*offset;
 	if (fd < 0 || BUFFER_SIZE < 1)
 		return NULL;
 	next = ft_read(fd, next);
 	if (!next)
 		return (NULL);
-	if (ft_strchr(next, '\n'))
-	{
-		offset = ft_strchr(next, '\n');
-		line = ft_substr(next, 0, ft_strlen(next) - ft_strlen(offset));
-		next = ft_tmp_substr(next, offset);
-	}
+	line = ft_substr(next, 0, ft_strlen(next) - ft_strlen(offset));
+	next = ft_tmp_substr(next, offset);
 	return (line);
 }
 
