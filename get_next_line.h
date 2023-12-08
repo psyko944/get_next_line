@@ -6,7 +6,7 @@
 /*   By: mekherbo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 21:41:34 by mekherbo          #+#    #+#             */
-/*   Updated: 2023/11/16 18:34:45 by mekherbo         ###   ########.fr       */
+/*   Updated: 2023/11/28 16:50:46 by mekherbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,21 @@
 # include <stdio.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 42
+#  define BUFFER_SIZE 1
 # endif
 # ifndef FD_LIMIT
-#  define FD_LIMIT 256
+#  define FD_LIMIT FOPEN_MAX
 # endif
 
 /*      gnl_functions                    */
-char	*ft_read(int fd, char *save);
-//char	*read_runtime(int fd, char *res, char *read_buffer);
-//char	*read_line(int fd, char **fd_save, char *read_buffer);
-
-/*      functions                        */
 char	*get_next_line(int fd);
-char	*ft_strjoin(char const *s1, char const *s2);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	*ft_read(int fd, char *save);
+char	*ft_new_save(char *save);
+char	*ft_get_line(char *save);
+
+/*      libc functions                        */
+char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strchr(const char *s, int c);
 size_t	ft_strlen(const char *s1);
-void	*ft_calloc(size_t count, size_t size);
-char	*ft_join(char *save, char *buffer);
-char	*ft_tmp_substr(char *next, char *offset);
-void	*ft_memcpy(void *dest, const void *src, size_t len);
+
 #endif
