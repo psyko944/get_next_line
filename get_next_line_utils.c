@@ -3,49 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mekherbo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mekherbo <mekherbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 15:03:22 by mekherbo          #+#    #+#             */
-/*   Updated: 2023/11/18 12:33:53 by mekherbo         ###   ########.fr       */
+/*   Updated: 2024/12/28 15:45:43 by mekherbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "get_next_line.h"
 
-size_t	ft_strlen(const char	*str)
+#include "get_next_line.h"
+#include <string.h>
+#include <stdint.h>
+
+size_t	ft_strlen(const char *s)
 {
 	size_t	i;
 
 	i = 0;
-	while (str[i])
-		i++;
+	while (s[i])
+		i += 1;
 	return (i);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 {
-	char	*join;
-	int		i;
-	int		j;
+	size_t	i;
 
-	if (!s1)
+	i = 0;
+	if (size == 0)
+		return (ft_strlen(src));
+	while (src[i] && i < size - 1)
 	{
-		s1 = malloc(sizeof(char));
-		s1[0] = '\0';
+		dest[i] = src[i];
+		i++;
 	}
-	if (!s1 || !s2)
-		return (NULL);
-	join = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (join == NULL)
-		return (NULL);
-	i = -1;
-	while (s1[++i])
-		join[i] = s1[i];
-	j = -1;
-	while (s2[++j])
-		join[i++] = s2[j];
-	join[i] = '\0';
-	free((char *)s1);
-	return (join);
+	dest[i] = '\0';
+	return (ft_strlen(src));
 }
 
 char	*ft_strchr(const char *str, int c)
@@ -64,4 +56,31 @@ char	*ft_strchr(const char *str, int c)
 		i++;
 	}
 	return (retval + i);
+}
+
+char	*ft_strdup(const char *s)
+{
+	char	*res;
+	size_t	len;
+
+	len = ft_strlen(s) + 1;
+	res = malloc(sizeof(char) * (len));
+	if (!res)
+		return (NULL);
+	int i = -1;
+	while (s[++i])
+		res[i] = s[i];
+	res[i] = 0;
+	return (res);
+}
+
+void	ft_bzero(void *s, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < n)
+	{
+		((unsigned char *)s)[i++] = 0;
+	}
 }

@@ -3,103 +3,77 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mekherbo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mekherbo <mekherbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 15:17:18 by mekherbo          #+#    #+#             */
-/*   Updated: 2023/12/07 16:39:38 by mekherbo         ###   ########.fr       */
+/*   Updated: 2024/12/29 19:19:56 by mekherbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "get_next_line.h"
 
-char	*ft_new_save(char *save)
+char	*ft_strjoin2(char *s1, char *s2)
 {
+	char	*join;
 	int		i;
 	int		j;
-	char	*str;
 
-	i = 0;
-	while (save[i] && save[i] != '\n')
-		i++;
-	if (!save[i])
+	if (!s1)
 	{
-		free(save);
-		return (NULL);
+		s1 = malloc(sizeof(char));
+		s1[0] = '\0';
 	}
-	str = (char *)malloc(sizeof(char) * (ft_strlen(save) - i + 1));
-	if (!str)
+	if (!s1 || !s2)
 		return (NULL);
-	i++;
-	j = 0;
-	while (save[i])
-		str[j++] = save[i++];
-	str[j] = '\0';
-	free(save);
-	return (str);
+	join = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (join == NULL)
+		return (NULL);
+	i = -1;
+	while (s1[++i])
+		join[i] = s1[i];
+	j = -1;
+	while (s2[++j])
+		join[i++] = s2[j];
+	join[i] = '\0';
+	free((char *)s1);
+	return (join);
 }
 
-char	*ft_get_line(char *save)
+static void	cut(char *line, char *keep)
 {
-	int		i;
-	char	*str;
+	int	i;
+	int	j;
 
-	i = 0;
-	if (!save[i])
-		return (NULL);
-	while (save[i] && save[i] != '\n')
-		i++;
-	str = (char *)malloc(sizeof(char) * (i + 2));
-	if (!str)
-		return (NULL);
-	i = 0;
-	while (save[i] && save[i] != '\n')
+	j = 0;
+	i = ft_strchr(line, '\n') - line;	
+	while (line[i++])
 	{
-		str[i] = save[i];
-		i++;
+		keep[j] = line[i];
+		j++;
 	}
-	if (save[i] == '\n')
-	{
-		str[i] = save[i];
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
+	line[ft_strchr(line, '\n')-line + 1] = '\0';
+	keep[j] = '\0';
 }
 
 char	*get_next_line(int fd)
 {
 	char		*line;
-	static char	*next;
+	static char	keep[BUFFER_SIZE + 1] = {0};
 
-	if (fd < 0 || BUFFER_SIZE < 1 || read(fd, &line, 0))
-		return (NULL);
-	next = ft_read(fd, next);
-	if (!next)
-		return (NULL);
-	line = ft_get_line(next);
-	next = ft_new_save(next);
-	return (line);
-}
-
-char	*ft_read(int fd, char *save)
-{
-	char	*buffer;
-	ssize_t	rv;
-
-	buffer = malloc(sizeof(char) * BUFFER_SIZE + 1);
-	if (!buffer)
-		return (NULL);
-	rv = BUFFER_SIZE;
-	while (rv > 0 && !ft_strchr(save, '\n'))
+	line = NULL;
+	if (keep[0] != 0)
 	{
-		rv = read(fd, buffer, BUFFER_SIZE);
-		if (rv == -1)
-		{
-			free(buffer);
-			return (NULL);
-		}
-		buffer[rv] = '\0';
-		save = ft_strjoin(save, buffer);
+		line = ft_strdup(keep);
+		if (ft_strchr(line, '\n'))
+			return (cut(line, keep), line);
 	}
-	free(buffer);
-	return (save);
+	ft_bzero(keep, BUFFER_SIZE + 1);
+	while (read(fd, keep, BUFFER_SIZE) > 0)
+	{
+		line = ft_strjoin2(line, keep);
+		if (ft_strchr(line, '\n'))
+			return (cut(line, keep), line);
+		ft_bzero(keep, BUFFER_SIZE + 1);
+	}
+	return (line);
 }

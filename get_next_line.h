@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mekherbo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mekherbo <mekherbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 21:41:34 by mekherbo          #+#    #+#             */
-/*   Updated: 2023/11/28 16:50:46 by mekherbo         ###   ########.fr       */
+/*   Updated: 2024/12/28 14:00:31 by mekherbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <stdio.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
+#  define BUFFER_SIZE 42
 # endif
 # ifndef FD_LIMIT
 #  define FD_LIMIT FOPEN_MAX
@@ -26,13 +26,12 @@
 
 /*      gnl_functions                    */
 char	*get_next_line(int fd);
-char	*ft_read(int fd, char *save);
-char	*ft_new_save(char *save);
-char	*ft_get_line(char *save);
 
 /*      libc functions                        */
-char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strchr(const char *s, int c);
 size_t	ft_strlen(const char *s1);
-
+size_t	ft_strlcpy(char *dest, const char *src, size_t size);
+char	*ft_strjoin2(char *s1, char *s2);
+char	*ft_strdup(const char *s);
+void	ft_bzero(void *s, size_t n);
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mekherbo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mekherbo <mekherbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 21:53:01 by mekherbo          #+#    #+#             */
-/*   Updated: 2023/11/19 21:53:08 by mekherbo         ###   ########.fr       */
+/*   Updated: 2024/12/28 15:57:42 by mekherbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,33 +20,6 @@ size_t	ft_strlen(const char	*str)
 	while (str[i])
 		i++;
 	return (i);
-}
-
-char	*ft_strjoin(char *s1, char *s2)
-{
-	char	*join;
-	int		i;
-	int		j;
-
-	if (!s1)
-	{
-		s1 = malloc(sizeof(char));
-		s1[0] = '\0';
-	}
-	if (!s1 || !s2)
-		return (NULL);
-	join = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (join == NULL)
-		return (NULL);
-	i = -1;
-	while (s1[++i])
-		join[i] = s1[i];
-	j = -1;
-	while (s2[++j])
-		join[i++] = s2[j];
-	join[i] = '\0';
-	free((char *)s1);
-	return (join);
 }
 
 char	*ft_strchr(const char *str, int c)
@@ -65,4 +38,32 @@ char	*ft_strchr(const char *str, int c)
 		i++;
 	}
 	return (retval + i);
+}
+
+
+char	*ft_strdup(const char *s)
+{
+	char	*res;
+	size_t	len;
+
+	len = ft_strlen(s) + 1;
+	res = malloc(sizeof(char) * (len));
+	if (!res)
+		return (NULL);
+	int i = -1;
+	while (s[++i])
+		res[i] = s[i];
+	res[i] = 0;
+	return (res);
+}
+
+void	ft_bzero(void *s, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < n)
+	{
+		((unsigned char *)s)[i++] = 0;
+	}
 }
